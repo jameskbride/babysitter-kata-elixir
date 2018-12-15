@@ -1,6 +1,6 @@
 defmodule BabySitter do
 
-  def calculate_pay(start_time, _hours, _bed_time) do
-    12
+  def calculate_pay(start_time, hours, _bed_time) do
+    12 * hours
   end
 end
