@@ -3,11 +3,11 @@ defmodule BabySitterTest do
 
   describe "before bedtime" do
     test "one hour of work" do
-      assert BabySitter.calculate_pay(17, 1, 18) == 12
+      assert BabySitter.calculate_pay(17, 1, 18) == {:ok, 12}
     end
 
     test "two hours of work" do
-      assert BabySitter.calculate_pay(17, 2, 19) == 24
+      assert BabySitter.calculate_pay(17, 2, 19) == {:ok, 24}
     end
   end
 
