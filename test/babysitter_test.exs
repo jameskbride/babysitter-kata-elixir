@@ -11,9 +11,15 @@ defmodule BabySitterTest do
     end
   end
 
-  describe "before 5:00PM" do
+  describe "starting before 5:00PM" do
     test "returns an error" do
       assert BabySitter.calculate_pay(16, 1, 18) == {:error, "Babysitter cannot start before 5:00PM"}
+    end
+  end
+
+  describe "leaving after 4:00AM" do
+    test "returns an error" do
+      assert BabySitter.calculate_pay(17, 12, 18) == {:error, "Babysitter must leave by 4:00AM"}
     end
   end
 end
