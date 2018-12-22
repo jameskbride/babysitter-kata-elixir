@@ -2,18 +2,25 @@ defmodule BabySitterTest do
   use ExUnit.Case
 
   describe "before bedtime" do
-    test "one hour of work pays $12" do
+    test "can calculate pay for an hour" do
       assert BabySitter.calculate_pay(17, 1, 18) == {:ok, 12}
     end
 
-    test "two hours of work pays $24" do
+    test "can calculate pay for multiple hours" do
       assert BabySitter.calculate_pay(17, 2, 19) == {:ok, 24}
     end
   end
 
-  describe "bedtime before midnight" do
-    test "one hour of works pays $8" do
+  describe "before and after bedtime" do
+    test "can calculate pay" do
       assert BabySitter.calculate_pay(17, 2, 18) == {:ok, 20}
+    end
+  end
+
+  @tag :wip
+  describe "before bedtime, after bedtime, past midnight" do
+    test "can calculate pay" do
+      assert BabySitter.calculate_pay(22, 3, 23) == {:ok, 36}
     end
   end
 
