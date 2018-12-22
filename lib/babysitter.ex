@@ -1,6 +1,7 @@
 defmodule BabySitter do
 
   @earliest_start_time 17
+  @latest_end_time 4
 
   @before_bed_rate 12
   @after_bed_rate 8
@@ -18,7 +19,7 @@ defmodule BabySitter do
 
   defp end_time_too_late?(start_time, hours) do
     end_time_24_hours = rem(start_time + hours, 24)
-    end_time_24_hours > 4 and end_time_24_hours < 17
+    end_time_24_hours > @latest_end_time and end_time_24_hours < @earliest_start_time
   end
 
   defp calculate_by_pay_rate(start_time, hours, bed_time) do
