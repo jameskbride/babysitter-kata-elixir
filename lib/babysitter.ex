@@ -3,7 +3,7 @@ defmodule BabySitter do
   @earliest_start_time 17
   @early_hourly_rate 12
 
-  @latest_end_end 28
+  @latest_end_hour 28
 
   @before_bed_rate 12
   @after_bed_rate 8
@@ -14,7 +14,7 @@ defmodule BabySitter do
   def calculate_pay(start_time, hours, bed_time) do
     cond do
       start_time < @earliest_start_time -> {:error, @too_early_message}
-      start_time + hours > @latest_end_end -> {:error, @too_late_message}
+      start_time + hours > @latest_end_hour -> {:error, @too_late_message}
       true -> {:ok, calculate_by_pay_rate(start_time, hours, bed_time)}
     end
   end
