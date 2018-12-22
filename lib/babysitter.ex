@@ -1,7 +1,6 @@
 defmodule BabySitter do
 
-  @earliest_start_time 17
-  @latest_end_time 4
+  alias BabySitter.ScheduleValidation, as: ScheduleValidation
 
   @before_bed_rate 12
   @after_bed_rate 8
@@ -11,19 +10,10 @@ defmodule BabySitter do
 
   def calculate_pay(start_time, hours, bed_time) do
     cond do
-      end_time_too_late?(start_time, hours) -> {:error, @too_late_message}
-      start_time_too_early?(start_time) -> {:error, @too_early_message}
+      ScheduleValidation.end_time_too_late?(start_time, hours) -> {:error, @too_late_message}
+      ScheduleValidation.start_time_too_early?(start_time) -> {:error, @too_early_message}
       true -> {:ok, calculate_by_pay_rate(start_time, hours, bed_time)}
     end
-  end
-
-  defp end_time_too_late?(start_time, hours) do
-    end_time_24_hours = rem(start_time + hours, 24)
-    end_time_24_hours > @latest_end_time and end_time_24_hours < @earliest_start_time
-  end
-
-  defp start_time_too_early?(start_time) do
-    start_time < @earliest_start_time
   end
 
   defp calculate_by_pay_rate(start_time, hours, bed_time) do
