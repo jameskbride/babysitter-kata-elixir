@@ -29,6 +29,12 @@ defmodule BabySitterTest do
     end
   end
 
+  describe "when start time is after bed time and end time is before midnight" do
+    test "then it can calculate pay" do
+      assert BabySitter.calculate_pay(19, 2, 17) == {:ok, 16}
+    end
+  end
+
   describe "when start time is before bed time and end time is after midnight" do
     test "then it can calculate pay" do
       assert BabySitter.calculate_pay(22, 3, 23) == {:ok, 36}

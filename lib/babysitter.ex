@@ -20,10 +20,14 @@ defmodule BabySitter do
   defp calculate_by_pay_rate(start_time, hours, bed_time) do
     end_time = start_time + hours
     before_bed_pay = calculate_before_bed_pay(start_time, end_time, bed_time)
-    after_bed_pay = calculate_bed_time_pay(end_time, bed_time)
+    after_bed_pay = calculate_bed_time_pay(start_time, end_time, bed_time)
     after_midnight_pay = calculate_midnight_pay(end_time)
 
     before_bed_pay + after_bed_pay + after_midnight_pay
+  end
+
+  defp calculate_before_bed_time_hours(start_time, _, bed_time) when start_time >= bed_time do
+    0
   end
 
   defp calculate_before_bed_time_hours(start_time, end_time, bed_time) when end_time <= bed_time do
@@ -36,24 +40,28 @@ defmodule BabySitter do
 
   defp calculate_before_bed_pay(start_time, end_time, bed_time) do
     before_bed_hours = calculate_before_bed_time_hours(start_time, end_time, bed_time)
-    before_bed_pay = before_bed_hours * @before_bed_rate
+    before_bed_hours * @before_bed_rate
   end
 
-  defp calculate_bed_time_hours(end_time, bed_time) when end_time <= bed_time do
+  defp calculate_bed_time_hours(_, end_time, bed_time) when end_time <= bed_time do
     0
   end
 
-  defp calculate_bed_time_hours(end_time, bed_time) when end_time > 24 do
+  defp calculate_bed_time_hours(_, end_time, bed_time) when end_time > 24 do
     24 - bed_time
   end
 
-  defp calculate_bed_time_hours(end_time, bed_time) when end_time <= 24 do
+  defp calculate_bed_time_hours(start_time, end_time, bed_time) when end_time <= 24 and start_time < bed_time do
     end_time - bed_time
   end
 
-  defp calculate_bed_time_pay(end_time, bed_time) do
-    after_bed_hours = calculate_bed_time_hours(end_time, bed_time)
-    after_bed_pay = after_bed_hours * @after_bed_rate
+  defp calculate_bed_time_hours(start_time, end_time, bed_time) when start_time >= bed_time do
+    end_time - start_time
+  end
+
+  defp calculate_bed_time_pay(start_time, end_time, bed_time) do
+    after_bed_hours = calculate_bed_time_hours(start_time, end_time, bed_time)
+    after_bed_hours * @after_bed_rate
   end
 
   defp calculate_after_midnight_hours(end_time) when rem(end_time, 24) < 5 do
