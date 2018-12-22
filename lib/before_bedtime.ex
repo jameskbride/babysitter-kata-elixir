@@ -1,4 +1,4 @@
-defmodule BabySitter.BeforeBed do
+defmodule BabySitter.BeforeBedTime do
   @before_bed_rate 12
 
   def calculate_before_bed_pay(start_time, end_time, bed_time) do
@@ -17,6 +17,4 @@ defmodule BabySitter.BeforeBed do
   defp calculate_before_bed_time_hours(start_time, end_time, bed_time) when end_time > bed_time do
     bed_time - start_time
   end
-
-
 end
