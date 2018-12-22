@@ -11,13 +11,16 @@ defmodule BabySitterTest do
     end
   end
 
-  describe "before and after bedtime" do
-    test "can calculate pay" do
+  describe "bedtime" do
+    test "before and after bedtime can calculate pay" do
       assert BabySitter.calculate_pay(17, 2, 18) == {:ok, 20}
+    end
+
+    test "start time and bedtime are the same can calculate pay" do
+      assert BabySitter.calculate_pay(17, 2, 17) == {:ok, 16}
     end
   end
 
-  @tag :wip
   describe "before bedtime, after bedtime, past midnight" do
     test "can calculate pay" do
       assert BabySitter.calculate_pay(22, 3, 23) == {:ok, 36}
