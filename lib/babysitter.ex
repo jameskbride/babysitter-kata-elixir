@@ -17,12 +17,11 @@ defmodule BabySitter do
   end
 
   defp calculate_by_pay_rate(start_time, hours, bed_time) do
-    end_time = start_time + hours
-
     before_bed_hours = bed_time - start_time
-    after_bed_hours = end_time - bed_time
-
     before_bed_pay = before_bed_hours * @before_bed_rate
+
+    end_time = start_time + hours
+    after_bed_hours = end_time - bed_time
     after_bed_pay = after_bed_hours * @after_bed_rate
 
     before_bed_pay + after_bed_pay
