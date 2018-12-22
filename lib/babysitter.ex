@@ -3,8 +3,7 @@ defmodule BabySitter do
   alias BabySitter.ScheduleValidation, as: ScheduleValidation
   alias BabySitter.BeforeBedTime, as: BeforeBedTime
   alias BabySitter.Bedtime, as: BedTime
-
-  @after_midnight_rate 16
+  alias BabySitter.AfterMidnight, as: AfterMidnight
 
   @too_early_message "Babysitter cannot start before 5:00PM"
   @too_late_message "Babysitter must leave by 4:00AM"
@@ -21,20 +20,8 @@ defmodule BabySitter do
     end_time = start_time + hours
     before_bed_pay = BeforeBedTime.calculate_before_bed_pay(start_time, end_time, bed_time)
     after_bed_pay = BedTime.calculate_bed_time_pay(start_time, end_time, bed_time)
-    after_midnight_pay = calculate_midnight_pay(end_time)
+    after_midnight_pay = AfterMidnight.calculate_midnight_pay(end_time)
 
     before_bed_pay + after_bed_pay + after_midnight_pay
-  end
-
-  defp calculate_after_midnight_hours(end_time) when rem(end_time, 24) < 5 do
-    rem(end_time, 24)
-  end
-
-  defp calculate_after_midnight_hours(end_time) when rem(end_time, 24) >= 5 do
-    0
-  end
-
-  defp calculate_midnight_pay(end_time) do
-    calculate_after_midnight_hours(end_time) * @after_midnight_rate
   end
 end
