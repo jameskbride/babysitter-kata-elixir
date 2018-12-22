@@ -9,6 +9,10 @@ defmodule BabySitterTest do
     test "can calculate pay for multiple hours" do
       assert BabySitter.calculate_pay(17, 2, 19) == {:ok, 24}
     end
+
+    test "end time is at least one hour before bedtime" do
+      assert BabySitter.calculate_pay(17, 2, 20) == {:ok, 24}
+    end
   end
 
   describe "bedtime" do
@@ -21,8 +25,8 @@ defmodule BabySitterTest do
     end
   end
 
-  describe "before bedtime, after bedtime, past midnight" do
-    test "can calculate pay" do
+  describe "midnight" do
+    test "before bedtime, after bedtime, and past midnight can calculate pay" do
       assert BabySitter.calculate_pay(22, 3, 23) == {:ok, 36}
     end
   end

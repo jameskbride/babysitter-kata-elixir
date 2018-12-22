@@ -18,11 +18,11 @@ defmodule BabySitter do
   end
 
   defp calculate_by_pay_rate(start_time, hours, bed_time) do
-    before_bed_hours = bed_time - start_time
+    end_time = start_time + hours
+    before_bed_hours = calculate_before_bed_time_hours(start_time, end_time, bed_time)
     before_bed_pay = before_bed_hours * @before_bed_rate
 
-    end_time = start_time + hours
-    after_bed_hours = calculate_bedtime_hours(end_time, bed_time)
+    after_bed_hours = calculate_bed_time_hours(end_time, bed_time)
     after_bed_pay = after_bed_hours * @after_bed_rate
 
     after_midnight_pay = calculate_after_midnight_hours(end_time) * @after_midnight_rate
@@ -30,12 +30,24 @@ defmodule BabySitter do
     before_bed_pay + after_bed_pay + after_midnight_pay
   end
 
-  defp calculate_bedtime_hours(end_time, bedtime) when end_time > 24 do
-    24 - bedtime
+  defp calculate_before_bed_time_hours(start_time, end_time, bed_time) when end_time <= bed_time do
+    end_time - start_time
   end
 
-  defp calculate_bedtime_hours(end_time, bedtime) when end_time <= 24 do
-    end_time - bedtime
+  defp calculate_before_bed_time_hours(start_time, end_time, bed_time) when end_time > bed_time do
+    bed_time - start_time
+  end
+
+  defp calculate_bed_time_hours(end_time, bed_time) when end_time <= bed_time do
+    0
+  end
+
+  defp calculate_bed_time_hours(end_time, bed_time) when end_time > 24 do
+    24 - bed_time
+  end
+
+  defp calculate_bed_time_hours(end_time, bed_time) when end_time <= 24 do
+    end_time - bed_time
   end
 
   defp calculate_after_midnight_hours(end_time) when rem(end_time, 24) < 5 do
